@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   deploy:
+    name: Deploy GCP VM
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,7 +22,7 @@ jobs:
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/github-actions/providers/github-actions-pool'
+          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/github-actions-pools/providers/github-provider'
           service_account: 'google-github-actions@master-358906.iam.gserviceaccount.com'
 
       - name: Set environment based on branch
