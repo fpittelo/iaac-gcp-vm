@@ -1,0 +1,48 @@
+name: Deploy to GCP
+
+on:
+  push:
+    branches:
+      - dev
+      - qa
+      - main
+
+permissions:
+  id-token: write  # Required for OIDC authentication
+  contents: read   # Default permission for accessing the repo
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/[POOL_ID]/providers/[PROVIDER_ID]'
+          service_account: 'google-github-actions@master-358906.iam.gserviceaccount.com'
+
+      - name: Set environment based on branch
+        id: setenv
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == "refs/heads/qa" ]]; then
+            echo "ENVIRONMENT=qa" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "ENVIRONMENT=main" >> $GITHUB_ENV
+          fi
+
+      - name: Deploy to GCP
+        uses: google-github-actions/deploy-compute-engine@v0
+        with:
+          machine_type: ${{ env.MACHINE_TYPE }}
+          zone: ${{ env.ZONE }}
+          source_image: projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts
+          metadata: startup-script=<(./deploy.sh)
+          instance_name: ${{ env.INSTANCE_NAME }}
+          boot_disk_name: ${{ env.INSTANCE_NAME }}
+        env:
+          ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'main' || github.ref == 'refs/heads/qa' && 'qa' || 'dev' }}
