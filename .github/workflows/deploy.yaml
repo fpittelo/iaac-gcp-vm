@@ -21,7 +21,7 @@ jobs:
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/[POOL_ID]/providers/[PROVIDER_ID]'
+          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-pool'
           service_account: 'google-github-actions@master-358906.iam.gserviceaccount.com'
 
       - name: Set environment based on branch
