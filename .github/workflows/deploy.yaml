@@ -23,7 +23,7 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/deploy-pool/providers/github-provider'
-          service_account: 'google-github-actions@master-358906.iam.gserviceaccount.com'
+          service_account: 'github-srv-acct@master-358906.iam.gserviceaccount.com'
 
       - name: Set environment based on branch
         id: setenv
