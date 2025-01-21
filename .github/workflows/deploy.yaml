@@ -38,6 +38,7 @@ jobs:
 
       - name: Create Storage Bucket
         run: |
+          gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
           gsutil mb -l europe-west6 gs://master-358906
 
 env:
