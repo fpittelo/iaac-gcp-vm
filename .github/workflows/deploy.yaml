@@ -36,7 +36,10 @@ jobs:
             echo "ENVIRONMENT=main" >> $GITHUB_ENV
           fi
 
-      
+      - name: Create Storage Bucket
+        run: |
+          gsutil mb -l europe-west6 gs://master-358906
+
 env:
   ZONE: europe-west6-b
   MACHINE_TYPE: e2-micro
