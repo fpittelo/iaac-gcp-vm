@@ -9,7 +9,7 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC authentication
-  contents: read   # Default permission for accessing the repo
+  contents: read  # Default permission for accessing the repo
 
 jobs:
   deploy:
@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-        - id: 'auth'
+      - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
           workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/deploy-pool/providers/github-provider'
