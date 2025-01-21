@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy GCP VM
+    name: Create GCP Storage Bucket
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,8 +22,8 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/deploy-pool/providers/github-provider'
-          service_account: 'github-srv-acct@master-358906.iam.gserviceaccount.com' 
+          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
+          service_account: 'github-fpittelo@master-358906.iam.gserviceaccount.com' 
           project_id: 'master-358906'
 
       - name: Set up Cloud SDK
