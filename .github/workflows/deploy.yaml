@@ -19,28 +19,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Authenticate to GCP
-        uses: google-github-actions/auth@v1
+        - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
         with:
           workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/deploy-pool/providers/github-provider'
-          service_account: 'github-srv-acct@master-358906.iam.gserviceaccount.com'
+          service_account: 'github-srv-acct'
 
-      - name: Set environment based on branch
-        id: setenv
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+
+      - name: Create GCS bucket
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
-          elif [[ "${{ github.ref }}" == "refs/heads/qa" ]]; then
-            echo "ENVIRONMENT=qa" >> $GITHUB_ENV
-          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "ENVIRONMENT=main" >> $GITHUB_ENV
-          fi
-
-      - name: Create Storage Bucket
-        run: |
-          gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-          gsutil mb -l europe-west6 gs://master-358906
-
-env:
-  ZONE: europe-west6-b
-  MACHINE_TYPE: e2-micro
+          gsutil mb -l US gs://my-new-bucket-unique-name
