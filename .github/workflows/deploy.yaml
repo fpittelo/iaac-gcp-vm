@@ -36,24 +36,7 @@ jobs:
             echo "ENVIRONMENT=main" >> $GITHUB_ENV
           fi
 
-      - name: Deploy VM
-        run: |
-          gcloud compute instances create iaac-gcp-vm-01 \
-            --project=master-358906 \
-            --zone=${{ env.ZONE }} \
-            --machine-type=${{ env.MACHINE_TYPE }} \
-            --subnet=default \
-            --network-tier=PREMIUM \
-            --maintenance-policy=MIGRATE \
-            --service-account=google-github-actions@master-358906.iam.gserviceaccount.com \
-            --scopes=https://www.googleapis.com/auth/cloud-platform \
-            --tags=http-server,https-server \
-            --image-family=ubuntu-2204-lts \
-            --image-project=ubuntu-os-cloud \
-            --boot-disk-size=10GB \
-            --boot-disk-type=pd-standard \
-            --boot-disk-device-name=iaac-gcp-vm-01
-
+      
 env:
   ZONE: europe-west6-b
   MACHINE_TYPE: e2-micro
