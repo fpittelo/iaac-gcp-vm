@@ -29,6 +29,17 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
+      - name: Debug Auth
+        run: |
+          echo "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: $CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE"
+          echo "GOOGLE_APPLICATION_CREDENTIALS: $GOOGLE_APPLICATION_CREDENTIALS"
+          gcloud auth list
+
+      - name: Test Authentication
+        run: |
+          gcloud config list account
+          gcloud projects list
+
       - name: Create GCS bucket
         run: |
-          gsutil mb -l US gs://fpittelo-google-vm-bckend
+          gsutil mb -l US-CENTRAL1 gs://my-unique-bucket-name-${{ github.run_number }}
