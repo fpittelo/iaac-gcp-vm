@@ -44,7 +44,19 @@ jobs:
         run: |
           gsutil mb -l europe-west6 gs://gothic-province-448810-q2-my-unique-bucket
 
+      - name: Check if VM instance exists
+        id: check-vm
+        run: |
+          if gcloud compute instances describe iaac-gcp-vm-01 --zone=europe-west6-b --project=gothic-province-448810-q2; then
+            echo "VM instance already exists."
+            echo "vm_exists=true" >> $GITHUB_ENV
+          else
+            echo "VM instance does not exist."
+            echo "vm_exists=false" >> $GITHUB_ENV
+          fi
+
       - name: Create VM instance
+        if: env.vm_exists == 'false'
         run: |
           gcloud compute instances create iaac-gcp-vm-01 \
             --project=gothic-province-448810-q2 \
