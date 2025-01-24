@@ -17,12 +17,12 @@ jobs:
           workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/[POOL_ID]/providers/[PROVIDER_ID]'
           service_account: 'google-github-actions@master-358906.iam.gserviceaccount.com'
 
-      - name: Destroy VM
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Delete GCS bucket
         run: |
-          gcloud compute instances delete iaac-gcp-vm-01 \
-            --project=master-358906 \
-            --zone=${{ env.ZONE }} \
-            --quiet
+          gsutil rm -r gs://gothic-province-448810-q2-my-unique-bucket
 
 env:
   ZONE: europe-west6-b
