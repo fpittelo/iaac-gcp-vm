@@ -33,6 +33,10 @@ jobs:
           echo "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: $CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE"
           echo "GOOGLE_APPLICATION_CREDENTIALS: $GOOGLE_APPLICATION_CREDENTIALS"
           gcloud auth list
+      
+      - name: Print OIDC Token
+        run: |
+          echo $ACTIONS_ID_TOKEN_REQUEST_TOKEN | jq -r '.'
 
       - name: Test Authentication
         run: |
