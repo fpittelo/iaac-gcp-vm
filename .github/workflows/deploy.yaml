@@ -43,3 +43,21 @@ jobs:
         if: env.bucket_exists == 'false'
         run: |
           gsutil mb -l europe-west6 gs://gothic-province-448810-q2-my-unique-bucket
+
+      - name: Create VM instance
+        run: |
+          gcloud compute instances create iaac-gcp-vm-01 \
+            --project=601556865371 \
+            --zone=europe-west6-b \
+            --machine-type=e2-micro \
+            --subnet=default \
+            --network-tier=PREMIUM \
+            --maintenance-policy=MIGRATE \
+            --service-account=github-sa@gothic-province-448810-q2.iam.gserviceaccount.com \
+            --scopes=https://www.googleapis.com/auth/cloud-platform \
+            --tags=http-server,https-server \
+            --image=ubuntu-2004-focal-v20210927 \
+            --image-project=ubuntu-os-cloud \
+            --boot-disk-size=10GB \
+            --boot-disk-type=pd-standard \
+            --boot-disk-device-name=iaac-gcp-vm-01
