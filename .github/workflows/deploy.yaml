@@ -30,4 +30,5 @@ jobs:
 
       - name: Create GCS bucket
         run: |
-          gsutil mb -l europe-west6 gs://googlelvm-${{ github.run_number }}
+          bucket_name="googlelvm-20252401"
+          gsutil mb -l europe-west6 gs://$bucket_name
