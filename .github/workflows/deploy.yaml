@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Create GCP Storage Bucket
+    name: Deploy Backend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
