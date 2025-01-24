@@ -1,0 +1,28 @@
+name: Destroy GCP Resources
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write  # Required for OIDC authentication
+  contents: read   # Default permission for accessing the repo
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/[POOL_ID]/providers/[PROVIDER_ID]'
+          service_account: 'google-github-actions@master-358906.iam.gserviceaccount.com'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Delete GCS bucket
+        run: |
+          gsutil rm -r gs://gothic-province-448810-q2-my-unique-bucket
+
+env:
+  ZONE: europe-west6-b
