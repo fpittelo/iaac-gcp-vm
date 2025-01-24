@@ -24,7 +24,7 @@ jobs:
         with:
           workload_identity_provider: 'projects/985414759644/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
           service_account: 'github-actions-sa@master-358906.iam.gserviceaccount.com'
-          create_credentials_file: true
+          create_credentials_file: false
           token_format: 'access_token'
           access_token_lifetime: '600s'
 
