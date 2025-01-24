@@ -47,7 +47,7 @@ jobs:
       - name: Create VM instance
         run: |
           gcloud compute instances create iaac-gcp-vm-01 \
-            --project=601556865371 \
+            --project=gothic-province-448810-q2 \
             --zone=europe-west6-b \
             --machine-type=e2-micro \
             --subnet=default \
