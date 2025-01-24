@@ -51,13 +51,13 @@ jobs:
             --zone=europe-west6-b \
             --machine-type=e2-micro \
             --subnet=default \
-            --network-tier=PREMIUM \
+            --network-tier=STANDARD \
             --maintenance-policy=MIGRATE \
             --service-account=github-sa@gothic-province-448810-q2.iam.gserviceaccount.com \
             --scopes=https://www.googleapis.com/auth/cloud-platform \
             --tags=http-server,https-server \
             --image=ubuntu-2004-focal-v20210927 \
             --image-project=ubuntu-os-cloud \
-            --boot-disk-size=10GB \
+            --boot-disk-size=20GB \
             --boot-disk-type=pd-standard \
             --boot-disk-device-name=iaac-gcp-vm-01
