@@ -22,9 +22,11 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/master-358906/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
-          service_account: 'github-fpittelo@master-358906.iam.gserviceaccount.com' 
-          project_id: 'master-358906'
+          workload_identity_provider: 'projects/985414759644/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
+          service_account: 'github-actions-sa@master-358906.iam.gserviceaccount.com'
+          create_credentials_file: true
+          token_format: 'access_token'
+          access_token_lifetime: '600s'
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
