@@ -28,6 +28,18 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
+      - name: Check if GCS bucket exists
+        id: check-bucket
+        run: |
+          if gsutil ls -b gs://gothic-province-448810-q2-my-unique-bucket; then
+            echo "Bucket already exists."
+            echo "bucket_exists=true" >> $GITHUB_ENV
+          else
+            echo "Bucket does not exist."
+            echo "bucket_exists=false" >> $GITHUB_ENV
+          fi
+
       - name: Create GCS bucket
+        if: env.bucket_exists == 'false'
         run: |
           gsutil mb -l europe-west6 gs://gothic-province-448810-q2-my-unique-bucket
