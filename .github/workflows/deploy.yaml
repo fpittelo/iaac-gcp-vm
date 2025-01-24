@@ -30,5 +30,4 @@ jobs:
 
       - name: Create GCS bucket
         run: |
-          bucket_name="googlelvm-20252401"
-          gsutil mb -l europe-west6 gs://$bucket_name
+          gsutil mb -l europe-west6 gs://gothic-province-448810-q2-my-unique-bucket
