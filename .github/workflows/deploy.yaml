@@ -12,7 +12,7 @@ permissions:
   contents: read  # Default permission for accessing the repo
 
 jobs:
-  deploy:
+  deploy-backend:
     name: Deploy Backend
     runs-on: ubuntu-latest
     steps:
@@ -27,13 +27,6 @@ jobs:
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
-
-      - name: Install Terraform
-        run: |
-          sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
-          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-          sudo apt-get update && sudo apt-get install -y terraform
 
       - name: Check if GCS bucket exists
         id: check-bucket
@@ -51,12 +44,35 @@ jobs:
         run: |
           gsutil mb -l europe-west6 gs://gothic-province-448810-q2-my-unique-bucket
 
+  terraform-setup:
+    name: Terraform Set Up
+    runs-on: ubuntu-latest
+    needs: deploy-backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Terraform
+        run: |
+          sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+          sudo apt-get update && sudo apt-get install -y terraform
+
       - name: Initialize Terraform
         run: |
           cd infra
           terraform init \
             -backend-config="bucket=gothic-province-448810-q2-my-unique-bucket" \
             -backend-config="prefix=terraform/state"
+
+  vm-deployment:
+    name: VM Deployment
+    runs-on: ubuntu-latest
+    needs: terraform-setup
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Apply Terraform configuration
         run: |
