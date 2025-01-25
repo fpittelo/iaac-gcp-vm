@@ -81,6 +81,13 @@ jobs:
           sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
           sudo apt-get update && sudo apt-get install -y terraform
 
+      - name: Initialize Terraform
+        run: |
+          cd infra
+          terraform init \
+            -backend-config="bucket=gothic-province-448810-q2-my-unique-bucket" \
+            -backend-config="prefix=terraform/state"
+
       - name: Apply Terraform configuration
         run: |
           cd infra
