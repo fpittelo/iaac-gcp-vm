@@ -29,6 +29,6 @@ resource "google_compute_instance" "vm_instance" {
   tags = var.tags
 
   metadata = {
-    ssh-keys = "user:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "user:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3..."
   }
 }
