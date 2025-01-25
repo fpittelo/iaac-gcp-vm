@@ -84,4 +84,4 @@ jobs:
       - name: Apply Terraform configuration
         run: |
           cd infra
-          terraform apply -auto-approve
+          terraform apply -var-file="dev.tfvars" -auto-approve
