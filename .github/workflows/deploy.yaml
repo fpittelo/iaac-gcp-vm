@@ -74,18 +74,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install Terraform
+        run: |
+          sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+          sudo apt-get update && sudo apt-get install -y terraform
+
       - name: Apply Terraform configuration
         run: |
           cd infra
           terraform apply -auto-approve
-
-      - name: Check if VM instance exists
-        id: check-vm
-        run: |
-          if gcloud compute instances describe iaac-gcp-vm-01 --zone=europe-west6-b --project=gothic-province-448810-q2; then
-            echo "VM instance already exists."
-            echo "vm_exists=true" >> $GITHUB_ENV
-          else
-            echo "VM instance does not exist."
-            echo "vm_exists=false" >> $GITHUB_ENV
-          fi
