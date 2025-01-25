@@ -1,5 +1,10 @@
 ###### varialbes.tf ######
 
+variable "branch_name" {
+    description = "The Github branch name"
+    type        = string
+}
+
 variable "project" {
     description = "The GCP project ID"
     type        = string
