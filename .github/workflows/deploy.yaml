@@ -44,6 +44,16 @@ jobs:
         run: |
           gsutil mb -l europe-west6 gs://gothic-province-448810-q2-my-unique-bucket
 
+      - name: Initialize Terraform
+        run: |
+          terraform init \
+            -backend-config="bucket=gothic-province-448810-q2-my-unique-bucket" \
+            -backend-config="prefix=terraform/state"
+
+      - name: Apply Terraform configuration
+        run: |
+          terraform apply -auto-approve
+
       - name: Check if VM instance exists
         id: check-vm
         run: |
@@ -54,22 +64,3 @@ jobs:
             echo "VM instance does not exist."
             echo "vm_exists=false" >> $GITHUB_ENV
           fi
-
-      - name: Create VM instance
-        if: env.vm_exists == 'false'
-        run: |
-          gcloud compute instances create iaac-gcp-vm-01 \
-            --project=gothic-province-448810-q2 \
-            --zone=europe-west6-b \
-            --machine-type=e2-micro \
-            --subnet=default \
-            --network-tier=STANDARD \
-            --maintenance-policy=MIGRATE \
-            --service-account=github-sa@gothic-province-448810-q2.iam.gserviceaccount.com \
-            --scopes=https://www.googleapis.com/auth/cloud-platform \
-            --tags=http-server,https-server \
-            --image=ubuntu-2004-focal-v20210927 \
-            --image-project=ubuntu-os-cloud \
-            --boot-disk-size=20GB \
-            --boot-disk-type=pd-standard \
-            --boot-disk-device-name=iaac-gcp-vm-01

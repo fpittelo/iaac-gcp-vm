@@ -1,0 +1,15 @@
+project_id            = "your-project-id"
+region                = "europe-west6"
+zone                  = "europe-west6-a"
+branch_name           = "dev"  # Add the branch name here
+vm_name               = "dev-iaac-vm-01"
+disk_name             = "${branch_name}-iaac-vm-01"
+machine_type          = "f1-micro"
+network               = "default"
+subnetwork            = "default"
+image_family          = "ubuntu-1804-lts"
+image_project         = "ubuntu-os-cloud"
+boot_disk_size        = "20"
+boot_disk_type        = "pd-standard"
+service_account_email = "your-service-account-email"
+tags                  = ["dev", "IT", "Fred"]
