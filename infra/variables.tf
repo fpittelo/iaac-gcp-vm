@@ -5,6 +5,11 @@ variable "branch_name" {
     type        = string
 }
 
+variable "github_run_id" {
+  description = "GitHub run ID"
+  type        = string
+}
+
 variable "project" {
     description = "The GCP project ID"
     type        = string
