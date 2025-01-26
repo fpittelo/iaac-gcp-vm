@@ -29,8 +29,6 @@ resource "google_compute_instance" "vm_instance" {
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
 
-  tags = var.tags
-
   metadata = {
     ssh-keys = "user:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3..."
   }

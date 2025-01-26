@@ -12,5 +12,7 @@ image_project         = "ubuntu-os-cloud"
 boot_disk_size        = "20"
 boot_disk_type        = "pd-standard"
 service_account_email = "frederic.pitteloud@gmail.com"
-tags                  = ["dev", "IT", "Fred"]
 github_run_id         = ""
+tags = {
+  "Owner" = "Fred"
+}

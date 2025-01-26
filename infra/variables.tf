@@ -77,6 +77,7 @@ variable "service_account_email" {
 }
 
 variable "tags" {
-  description = "The tags for the VM instance"
-  type        = list(string)
+  description = "Tags to apply to resources"
+  type        = map(string)
+  default     = {}  # Set default to empty map if appropriate
 }
