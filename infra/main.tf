@@ -1,9 +1,4 @@
-terraform {
-  backend "gcs" {
-    bucket = "gothic-province-448810-q2-terraform"
-    prefix = "backend/terraform/state"
-  }
-}
+##### Resource Configuration #####
 
 resource "google_compute_instance" "vm_instance" {
   name         = var.vm_name

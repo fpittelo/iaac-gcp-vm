@@ -5,6 +5,10 @@ terraform {
       version = ">= 6.17.0"
     }
   }
+  backend "gcs" {
+    bucket = "gothic-province-448810-q2-terraform"
+    prefix = "backend/terraform/state"
+  }
 }
 
 provider "google" {
@@ -12,5 +16,9 @@ provider "google" {
   region  = var.region
   zone    = var.zone
 
-  credentials = file("/home/runner/work/google_vm/google_vm/gha-creds-${var.github_run_id}.json")
+  access_token = data.google_client_openid_connect_access_token.default.token
+}
+
+data "google_client_openid_connect_access_token" "default" {
+  target_audience = "https://accounts.google.com/o/oauth2/auth"
 }
