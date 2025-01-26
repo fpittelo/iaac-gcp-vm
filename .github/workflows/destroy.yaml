@@ -24,12 +24,5 @@ jobs:
         run: |
           gsutil rm -r gs://gothic-province-448810-q2-my-unique-bucket
 
-      - name: Delete VM instance
-        run: |
-          gcloud compute instances delete iaac-gcp-vm-01 \
-            --project=gothic-province-448810-q2 \
-            --zone=europe-west6-b \
-            --quiet
-
 env:
   ZONE: europe-west6-b
