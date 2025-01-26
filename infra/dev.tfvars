@@ -1,4 +1,4 @@
-project               = "your-project-id"
+project               = "gothic-province-448810-q2"
 region                = "europe-west6"
 zone                  = "europe-west6-a"
 branch_name           = "dev"
