@@ -8,6 +8,7 @@ terraform {
   backend "gcs" {
     bucket = "gothic-province-448810-q2-terraform"
     prefix = "backend/terraform/state"
+    use_oidc = true
   }
 }
 
@@ -20,5 +21,5 @@ provider "google" {
 }
 
 data "google_client_openid_connect_access_token" "default" {
-  target_audience = "https://accounts.google.com/o/oauth2/auth"
+  target_audience = "https://iam.googleapis.com/projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions"
 }
