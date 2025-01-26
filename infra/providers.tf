@@ -16,10 +16,4 @@ provider "google" {
   project = var.project
   region  = var.region
   zone    = var.zone
-
-  access_token = data.google_client_openid_connect_access_token.default.token
-}
-
-data "google_client_openid_connect_access_token" "default" {
-  target_audience = "https://iam.googleapis.com/projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions"
 }
