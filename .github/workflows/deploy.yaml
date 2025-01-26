@@ -57,6 +57,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
+          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+
       - name: Install Terraform
         run: |
           sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
@@ -78,6 +84,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
+          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
 
       - name: Install Terraform
         run: |
