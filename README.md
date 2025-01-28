@@ -1,4 +1,4 @@
-# google_vm
+
 ## Terraform GCP VM: Your Secure and Ephemeral Cloud Companion
 
 **Spin up a secure VM on GCP with just a few lines of code!**
