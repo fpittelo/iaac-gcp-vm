@@ -20,11 +20,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth for dev branch
+        if: github.ref == 'refs/heads/dev'
+        id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/394805747332/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm-dev'
+          service_account: 'github-sa-dev@iaac-gcp-vm-dev.iam.gserviceaccount.com'
+
+      - name: Set auth for qa branch
+        if: github.ref == 'refs/heads/qa'
+        id: 'auth-qa'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/829661777637/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm'
+          service_account: 'github-sa-qa@iaac-gcp-vm-qa.iam.gserviceaccount.com'
+
+      - name: Set auth for main branch
+        if: github.ref == 'refs/heads/main'
+        id: 'auth-main'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm'
+          service_account: 'github-sa-main@gothic-province-448810-q2.iam.gserviceaccount.com'
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -58,11 +76,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth for dev branch
+        if: github.ref == 'refs/heads/dev'
+        id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/394805747332/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm-dev'
+          service_account: 'github-sa-dev@iaac-gcp-vm-dev.iam.gserviceaccount.com'
+
+      - name: Set auth for qa branch
+        if: github.ref == 'refs/heads/qa'
+        id: 'auth-qa'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/829661777637/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm'
+          service_account: 'github-sa-qa@iaac-gcp-vm-qa.iam.gserviceaccount.com'
+
+      - name: Set auth for main branch
+        if: github.ref == 'refs/heads/main'
+        id: 'auth-main'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm'
+          service_account: 'github-sa-main@gothic-province-448810-q2.iam.gserviceaccount.com'
 
       - name: Install Terraform
         run: |
@@ -86,11 +122,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth for dev branch
+        if: github.ref == 'refs/heads/dev'
+        id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/394805747332/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm-dev'
+          service_account: 'github-sa-dev@iaac-gcp-vm-dev.iam.gserviceaccount.com'
+
+      - name: Set auth for qa branch
+        if: github.ref == 'refs/heads/qa'
+        id: 'auth-qa'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/829661777637/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm'
+          service_account: 'github-sa-qa@iaac-gcp-vm-qa.iam.gserviceaccount.com'
+
+      - name: Set auth for main branch
+        if: github.ref == 'refs/heads/main'
+        id: 'auth-main'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm'
+          service_account: 'github-sa-main@gothic-province-448810-q2.iam.gserviceaccount.com'
 
       - name: Install Terraform
         run: |
