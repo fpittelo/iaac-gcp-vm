@@ -2,6 +2,11 @@ name: Destroy
 
 on:
   workflow_dispatch:
+# push:
+#   branches:
+#     - dev
+#     - qa
+#     - main
 
 permissions:
   id-token: write  # Required for OIDC authentication
@@ -11,12 +16,12 @@ jobs:
   terraform-destroy:
     name: Terraform Destroy
     runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set auth for dev branch
-        if: github.ref == 'refs/heads/dev'
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
