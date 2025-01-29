@@ -20,11 +20,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth for dev branch
+        if: github.ref == 'refs/heads/dev'
+        id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.DEV_ID_PROVIDER }}
+          service_account: ${{ secrets.DEV_SA }}
+
+      - name: Set auth for qa branch
+        if: github.ref == 'refs/heads/qa'
+        id: 'auth-qa'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.QA_ID_PROVIDER }}
+          service_account: ${{ secrets.QA_SA }}
+      
+      - name: Set auth for main branch
+        if: github.ref == 'refs/heads/main'
+        id: 'auth-main'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.MAIN_ID_PROVIDER }}
+          service_account: ${{ secrets.MAIN_SA }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -32,7 +50,7 @@ jobs:
       - name: Check if GCS bucket exists
         id: check-bucket
         run: |
-          if gsutil ls -b gs://gothic-province-448810-q2-terraform; then
+          if gsutil ls -b gs://iaac-gcp-vm-dev-terraform; then
             echo "Bucket already exists."
             echo "bucket_exists=true" >> $GITHUB_ENV
           else
@@ -43,12 +61,12 @@ jobs:
       - name: Create GCS bucket
         if: env.bucket_exists == 'false'
         run: |
-          gsutil mb -l europe-west6 gs://gothic-province-448810-q2-terraform
+          gsutil mb -l europe-west6 gs://iaac-gcp-vm-dev-terraform
 
       - name: Create backend folder
         run: |
           echo "Creating backend folder in the bucket"
-          gsutil cp /dev/null gs://gothic-province-448810-q2-terraform/backend/
+          gsutil cp /dev/null gs://iaac-gcp-vm-dev-terraform/backend/
 
   terraform-setup:
     name: Terraform Set Up
@@ -58,12 +76,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth for dev branch
+        if: github.ref == 'refs/heads/dev'
+        id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.DEV_ID_PROVIDER }}
+          service_account: ${{ secrets.DEV_SA }}
 
+      - name: Set auth for qa branch
+        if: github.ref == 'refs/heads/qa'
+        id: 'auth-qa'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.QA_ID_PROVIDER }}
+          service_account: ${{ secrets.QA_SA }}
+
+      - name: Set auth for main branch
+        if: github.ref == 'refs/heads/main'
+        id: 'auth-main'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.MAIN_ID_PROVIDER }}
+          service_account: ${{ secrets.MAIN_SA }}
+      
       - name: Install Terraform
         run: |
           sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
@@ -75,7 +111,7 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="bucket=gothic-province-448810-q2-terraform" \
+            -backend-config="bucket=iaac-gcp-vm-dev-terraform" \
             -backend-config="prefix=backend/terraform/state"
 
   vm-deployment:
@@ -86,12 +122,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth for dev branch
+        if: github.ref == 'refs/heads/dev'
+        id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.DEV_ID_PROVIDER }}
+          service_account: ${{ secrets.DEV_SA }}
 
+      - name: Set auth for qa branch
+        if: github.ref == 'refs/heads/qa'
+        id: 'auth-qa'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.QA_ID_PROVIDER }}
+          service_account: ${{ secrets.QA_SA }}
+
+      - name: Set auth for main branch
+        if: github.ref == 'refs/heads/main'
+        id: 'auth-main'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.MAIN_ID_PROVIDER }}
+          service_account: ${{ secrets.MAIN_SA }}
+      
       - name: Install Terraform
         run: |
           sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
@@ -106,7 +160,7 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="bucket=gothic-province-448810-q2-terraform" \
+            -backend-config="bucket=iaac-gcp-vm-dev-terraform" \
             -backend-config="prefix=backend/terraform/state"
 
       - name: Apply Terraform configuration
