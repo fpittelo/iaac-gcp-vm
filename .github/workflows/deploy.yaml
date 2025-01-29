@@ -25,24 +25,24 @@ jobs:
         id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/394805747332/locations/global/workloadIdentityPools/github-id-pool/providers/github-provider'
-          service_account: 'github-sa-dev@iaac-gcp-vm-dev.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.DEV_ID_PROVIDER }}
+          service_account: ${{ secrets.DEV_SA }}
 
       - name: Set auth for qa branch
         if: github.ref == 'refs/heads/qa'
         id: 'auth-qa'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/829661777637/locations/global/workloadIdentityPools/github-id-pool/providers/github-provider'
-          service_account: 'github-sa-qa@iaac-gcp-vm-qa.iam.gserviceaccount.com'
-
+          workload_identity_provider: ${{ secrets.QA_ID_PROVIDER }}
+          service_account: ${{ secrets.QA_SA }}
+      
       - name: Set auth for main branch
         if: github.ref == 'refs/heads/main'
         id: 'auth-main'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa-main@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.MAIN_ID_PROVIDER }}
+          service_account: ${{ secrets.MAIN_SA }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -81,25 +81,25 @@ jobs:
         id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/394805747332/locations/global/workloadIdentityPools/github-id-pool/providers/github-provider'
-          service_account: 'github-sa-dev@iaac-gcp-vm-dev.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.DEV_ID_PROVIDER }}
+          service_account: ${{ secrets.DEV_SA }}
 
       - name: Set auth for qa branch
         if: github.ref == 'refs/heads/qa'
         id: 'auth-qa'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/829661777637/locations/global/workloadIdentityPools/github-id-pool/providers/github-provider'
-          service_account: 'github-sa-qa@iaac-gcp-vm-qa.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.QA_ID_PROVIDER }}
+          service_account: ${{ secrets.QA_SA }}
 
       - name: Set auth for main branch
         if: github.ref == 'refs/heads/main'
         id: 'auth-main'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa-main@gothic-province-448810-q2.iam.gserviceaccount.com'
-
+          workload_identity_provider: ${{ secrets.MAIN_ID_PROVIDER }}
+          service_account: ${{ secrets.MAIN_SA }}
+      
       - name: Install Terraform
         run: |
           sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
@@ -127,25 +127,25 @@ jobs:
         id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/394805747332/locations/global/workloadIdentityPools/github-id-pool/providers/github-provider'
-          service_account: 'github-sa-dev@iaac-gcp-vm-dev.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.DEV_ID_PROVIDER }}
+          service_account: ${{ secrets.DEV_SA }}
 
       - name: Set auth for qa branch
         if: github.ref == 'refs/heads/qa'
         id: 'auth-qa'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/829661777637/locations/global/workloadIdentityPools/github-id-pool/providers/github-provider'
-          service_account: 'github-sa-qa@iaac-gcp-vm-qa.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.QA_ID_PROVIDER }}
+          service_account: ${{ secrets.QA_SA }}
 
       - name: Set auth for main branch
         if: github.ref == 'refs/heads/main'
         id: 'auth-main'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa-main@gothic-province-448810-q2.iam.gserviceaccount.com'
-
+          workload_identity_provider: ${{ secrets.MAIN_ID_PROVIDER }}
+          service_account: ${{ secrets.MAIN_SA }}
+      
       - name: Install Terraform
         run: |
           sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
