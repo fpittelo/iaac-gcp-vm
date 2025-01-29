@@ -15,12 +15,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth for dev branch
+        if: github.ref == 'refs/heads/dev'
+        id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
-
+          workload_identity_provider: ${{ secrets.DEV_ID_PROVIDER }}
+          service_account: ${{ secrets.DEV_SA }}
+          
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
@@ -35,7 +37,7 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="bucket=gothic-province-448810-q2-terraform" \
+            -backend-config="bucket=${{ secrets.DEV_BUCKET }}" \
             -backend-config="prefix=backend/terraform/state"
 
       - name: Destroy Terraform-managed infrastructure
@@ -51,11 +53,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth for dev branch
+        if: github.ref == 'refs/heads/dev'
+        id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.DEV_ID_PROVIDER }}
+          service_account: ${{ secrets.DEV_SA }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -63,7 +67,7 @@ jobs:
       - name: Check if GCS bucket exists
         id: check-bucket
         run: |
-          if gsutil ls -b gs://gothic-province-448810-q2-terraform; then
+          if gsutil ls -b gs://${{ secrets.DEV_BUCKET }}; then
             echo "Bucket exists."
             echo "bucket_exists=true" >> $GITHUB_ENV
           else
@@ -74,7 +78,7 @@ jobs:
       - name: Delete GCS bucket
         if: env.bucket_exists == 'true'
         run: |
-          gsutil rm -r gs://gothic-province-448810-q2-terraform
+          gsutil rm -r gs://${{ secrets.DEV_BUCKET }}
 
 env:
   ZONE: europe-west6-b
