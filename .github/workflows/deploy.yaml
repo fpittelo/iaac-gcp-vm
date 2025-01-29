@@ -1,6 +1,7 @@
 name: Deploy
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - dev
@@ -15,15 +16,17 @@ jobs:
   deploy-backend:
     name: Deploy Backend
     runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth
+        id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -31,7 +34,7 @@ jobs:
       - name: Check if GCS bucket exists
         id: check-bucket
         run: |
-          if gsutil ls -b gs://gothic-province-448810-q2-terraform; then
+          if gsutil ls -b gs://${{ secrets.BUCKET }}; then
             echo "Bucket already exists."
             echo "bucket_exists=true" >> $GITHUB_ENV
           else
@@ -42,26 +45,28 @@ jobs:
       - name: Create GCS bucket
         if: env.bucket_exists == 'false'
         run: |
-          gsutil mb -l europe-west6 gs://gothic-province-448810-q2-terraform
+          gsutil mb -l europe-west6 gs://${{ secrets.BUCKET }}
 
       - name: Create backend folder
         run: |
           echo "Creating backend folder in the bucket"
-          gsutil cp /dev/null gs://gothic-province-448810-q2-terraform/backend/
+          gsutil cp /dev/null gs://${{ secrets.BUCKET }}/backend/
 
   terraform-setup:
     name: Terraform Set Up
     runs-on: ubuntu-latest
     needs: deploy-backend
+    environment: ${{ github.ref_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth
+        id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
 
       - name: Install Terraform
         run: |
@@ -74,22 +79,24 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="bucket=gothic-province-448810-q2-terraform" \
+            -backend-config="bucket=${{ secrets.BUCKET }}" \
             -backend-config="prefix=backend/terraform/state"
 
   vm-deployment:
     name: VM Deployment
     runs-on: ubuntu-latest
     needs: terraform-setup
+    environment: ${{ github.ref_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - id: 'auth'
+      - name: Set auth
+        id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/601556865371/locations/global/workloadIdentityPools/github-id-pool/providers/github-actions'
-          service_account: 'github-sa@gothic-province-448810-q2.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
 
       - name: Install Terraform
         run: |
@@ -105,10 +112,10 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="bucket=gothic-province-448810-q2-terraform" \
+            -backend-config="bucket=${{ secrets.BUCKET }}" \
             -backend-config="prefix=backend/terraform/state"
 
       - name: Apply Terraform configuration
         run: |
           cd infra
-          terraform apply -var-file="dev.tfvars" -var="github_run_id=${{ github.run_id }}" -auto-approve
+          terraform apply -var-file="${{ github.ref_name }}.tfvars" -var="github_run_id=${{ github.run_id }}" -auto-approve
