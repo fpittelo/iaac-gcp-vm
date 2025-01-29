@@ -81,7 +81,7 @@ jobs:
         id: 'auth-dev'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/394805747332/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm-dev'
+          workload_identity_provider: 'projects/394805747332/locations/global/workloadIdentityPools/github-id-pool/providers/github-provider'
           service_account: 'github-sa-dev@iaac-gcp-vm-dev.iam.gserviceaccount.com'
 
       - name: Set auth for qa branch
@@ -89,7 +89,7 @@ jobs:
         id: 'auth-qa'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/829661777637/locations/global/workloadIdentityPools/github-id-pool/subject/fpittelo/iaac-gcp-vm'
+          workload_identity_provider: 'projects/829661777637/locations/global/workloadIdentityPools/github-id-pool/providers/github-provider'
           service_account: 'github-sa-qa@iaac-gcp-vm-qa.iam.gserviceaccount.com'
 
       - name: Set auth for main branch
