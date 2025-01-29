@@ -111,7 +111,7 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="iaac-gcp-vm-dev-terraform" \
+            -backend-config="bucket=iaac-gcp-vm-dev-terraform" \
             -backend-config="prefix=backend/terraform/state"
 
   vm-deployment:
