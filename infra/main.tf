@@ -32,4 +32,10 @@ resource "google_compute_instance" "vm_instance" {
   metadata = {
     ssh-keys = "user:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3..."
   }
+
+  labels = {
+    branch     = github.ref_name  # Use the branch name here
+    department = "IT"
+    owner      = "Fred"
+  }
 }
