@@ -42,7 +42,7 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="bucket=${{ secrets.BUCKET }}" \
+            -backend-config="bucket=${{ secrets.TF_VAR_BUCKET }}" \
             -backend-config="prefix=backend/terraform/state"
 
       - name: Destroy Terraform-managed infrastructure
@@ -72,7 +72,7 @@ jobs:
       - name: Check if GCS bucket exists
         id: check-bucket
         run: |
-          if gsutil ls -b gs://${{ secrets.BUCKET }}; then
+          if gsutil ls -b gs://${{ secrets.TF_VAR_BUCKET }}; then
             echo "Bucket exists."
             echo "bucket_exists=true" >> $GITHUB_ENV
           else
@@ -83,7 +83,7 @@ jobs:
       - name: Delete GCS bucket
         if: env.bucket_exists == 'true'
         run: |
-          gsutil rm -r gs://${{ secrets.BUCKET }}
+          gsutil rm -r gs://${{ secrets.TF_VAR_BUCKET }}
 
 env:
   ZONE: europe-west6-b

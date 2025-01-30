@@ -6,9 +6,10 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket = "gothic-province-448810-q2-terraform"
-    prefix = "backend/terraform/state"
-    use_oidc = true
+#   bucket    = "gothic-province-448810-q2-terraform"
+    bucket    = var.bucket #map to Github secrets TF_VAR_BUCKET
+    prefix    = "backend/terraform/state"
+    use_oidc  = true
   }
 }
 

@@ -34,7 +34,7 @@ jobs:
       - name: Check if GCS bucket exists
         id: check-bucket
         run: |
-          if gsutil ls -b gs://${{ secrets.BUCKET }}; then
+          if gsutil ls -b gs://${{ secrets.TF_VAR_BUCKET }}; then
             echo "Bucket already exists."
             echo "bucket_exists=true" >> $GITHUB_ENV
           else
@@ -45,12 +45,12 @@ jobs:
       - name: Create GCS bucket
         if: env.bucket_exists == 'false'
         run: |
-          gsutil mb -l europe-west6 gs://${{ secrets.BUCKET }}
+          gsutil mb -l europe-west6 gs://${{ secrets.TF_VAR_BUCKET }}
 
       - name: Create backend folder
         run: |
           echo "Creating backend folder in the bucket"
-          gsutil cp /dev/null gs://${{ secrets.BUCKET }}/backend/
+          gsutil cp /dev/null gs://${{ secrets.TF_VAR_BUCKET }}/backend/
 
   terraform-setup:
     name: Terraform Set Up
@@ -79,7 +79,7 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="bucket=${{ secrets.BUCKET }}" \
+            -backend-config="bucket=${{ secrets.TF_VAR_BUCKET }}" \
             -backend-config="prefix=backend/terraform/state"
 
   vm-deployment:
@@ -112,7 +112,7 @@ jobs:
         run: |
           cd infra
           terraform init \
-            -backend-config="bucket=${{ secrets.BUCKET }}" \
+            -backend-config="bucket=${{ secrets.TF_VAR_BUCKET }}" \
             -backend-config="prefix=backend/terraform/state"
 
       - name: Apply Terraform configuration
