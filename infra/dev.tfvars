@@ -1,7 +1,6 @@
 project               = "iaac-gcp-vm-dev"
 region                = "europe-west6"
 zone                  = "europe-west6-b"
-branch_name           = "dev"
 vm_name               = "dev-iaac-vm-01"
 disk_name             = "dev-iaac-vm-01"
 machine_type          = "e2-micro"
@@ -13,6 +12,3 @@ boot_disk_size        = "20"
 boot_disk_type        = "pd-standard"
 service_account_email = "github-sa-dev@iaac-gcp-vm-dev.iam.gserviceaccount.com"
 github_run_id         = ""
-tags = {
-  "Owner" = "Fred"
-}
