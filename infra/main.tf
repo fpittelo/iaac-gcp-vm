@@ -34,8 +34,8 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   labels = {
-    branch     = github.ref_name  # Use the branch name here
-    department = "IT"
-    owner      = "Fred"
+    environment = var.environment  # Use the environment name here
+    department  = "IT"
+    owner       = "Fred"
   }
 }
