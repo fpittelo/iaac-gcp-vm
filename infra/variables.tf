@@ -1,8 +1,8 @@
 ###### varialbes.tf ######
 
-variable "branch_name" {
-    description = "The Github branch name"
-    type        = string
+variable "git_branch" {
+   description = "The Github branch name"
+   type        = string
 }
 
 variable "github_run_id" {
@@ -39,7 +39,6 @@ variable "machine_type" {
   description = "The machine type for the VM instance"
   type        = string
 }
-
 
 variable "network" {
   description = "The network for the VM instance"

@@ -1,4 +1,6 @@
-##### Resource Configuration ######
+##### GITHUB Branch #############
+
+##### VM Instance Creation ######
 
 resource "google_compute_instance" "vm_instance" {
   name         = var.vm_name
@@ -13,6 +15,12 @@ resource "google_compute_instance" "vm_instance" {
       type  = var.boot_disk_type
     }
     device_name = var.disk_name
+  }
+
+  labels = {
+    git           = var.git_branch
+    project       = var.project
+    dpt           = "it"
   }
 
   network_interface {
