@@ -1,9 +1,9 @@
 ###### varialbes.tf ######
 
-#variable "git_branch" {
-#   description = "The Github branch name"
-#   type        = string
-#}
+variable "git_branch" {
+   description = "The Github branch name"
+   type        = string
+}
 
 variable "github_run_id" {
   description = "GitHub run ID"
