@@ -17,6 +17,12 @@ resource "google_compute_instance" "vm_instance" {
     device_name = var.disk_name
   }
 
+  labels = {
+    env           = var.git_branch
+    project       = var.project
+    department    = "IT"
+  }
+
   network_interface {
     network    = var.network
     subnetwork = var.subnetwork
