@@ -1,15 +1,16 @@
 ##### GITHUB Branch #############
+
 resource "null_resource" "git_branch" {
   provisioner "local-exec" {
     command = "git rev-parse --abbrev-ref HEAD"
     environment = {
-      GIT_TERMINAL_PROMPT = "0"
+      GIT_TERMINAL_PROMPT = "0" 
     }
   }
 }
 
-output "git_branch" {
-  value = null_resource.git_branch.triggers.branch.provisioner.local-exec.0.stdout
+output "git_branch_name" {
+  value = null_resource.git_branch.provisioner.local-exec.0.stdout
 }
 
 ##### VM Instance Creation ######
@@ -31,7 +32,7 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   labels = {
-     deployment_branch = var.git_branch
+     deployment_branch = module.git_branch.git_branch_name
    }
 
   network_interface {
