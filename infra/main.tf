@@ -20,7 +20,7 @@ resource "google_compute_instance" "vm_instance" {
   labels = {
     env           = var.git_branch
     project       = var.project
-    department    = "IT"
+    department    = "it department"
   }
 
   network_interface {
