@@ -4,7 +4,12 @@ terraform {
       source  = "hashicorp/google"
       version = ">= 6.17.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = "4.4.0"
+    }
   }
+
   backend "gcs" {
 #   bucket    = "gothic-province-448810-q2-terraform"
     bucket    = var.bucket #map to Github secrets TF_VAR_BUCKET
